@@ -19,4 +19,11 @@ public class MemberId implements Serializable {
     @Column(name = "member_id")
     private String id;
 
+    public MemberId(String id) {
+        this.id = id;
+    }
+
+    public static MemberId of(String id) {
+        return new MemberId(id);
+    }
 }

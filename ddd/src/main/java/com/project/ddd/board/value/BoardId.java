@@ -22,4 +22,8 @@ public class BoardId implements Serializable {
     public BoardId(String id) {
         this.id = id;
     }
+
+    public static BoardId of(String id) {
+        return new BoardId(id);
+    }
 }
