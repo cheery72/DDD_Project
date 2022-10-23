@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
   h2:
@@ -8,7 +8,7 @@ spring:
       path: /h2-console
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:~/test
+    url: jdbc:h2:~/test2
     username: sa
     password:
 

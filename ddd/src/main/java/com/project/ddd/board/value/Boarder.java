@@ -25,4 +25,5 @@ public class Boarder {
         this.memberId = memberId;
         this.name = name;
     }
+
 }
