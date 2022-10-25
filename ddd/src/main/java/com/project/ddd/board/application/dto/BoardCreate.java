@@ -7,21 +7,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.awt.*;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class BoardCreate {
 
-    private MemberId memberId;
+    private String memberId;
 
-    private BoardContent content;
+    private String content;
 
-    private List<BoardTag> tag;
+    private List<String> tag;
 
-    public BoardCreate(MemberId memberId, BoardContent content, List<BoardTag> tag) {
+    private List<String> image;
+
+    public BoardCreate(String memberId, String content, List<String> tag, List<String> image) {
         this.memberId = memberId;
         this.content = content;
         this.tag = tag;
+        this.image = image;
     }
 }

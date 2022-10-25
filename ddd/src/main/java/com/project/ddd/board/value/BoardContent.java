@@ -18,4 +18,8 @@ public class BoardContent {
     public BoardContent(String content) {
         this.content = content;
     }
+
+    public static BoardContent of(String content){
+        return new BoardContent(content);
+    }
 }

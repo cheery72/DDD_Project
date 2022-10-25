@@ -18,12 +18,11 @@ public class Boarder {
     )
     private MemberId memberId;
 
-    @Column(name = "boarder_name")
-    private String name;
-
-    public Boarder(MemberId memberId, String name) {
+    public Boarder(MemberId memberId) {
         this.memberId = memberId;
-        this.name = name;
     }
 
+    public static Boarder of(MemberId memberId) {
+        return new Boarder(memberId);
+    }
 }
