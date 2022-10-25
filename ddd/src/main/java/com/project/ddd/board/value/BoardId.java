@@ -27,4 +27,8 @@ public class BoardId implements Serializable {
     public static BoardId of() {
         return new BoardId(UUID.randomUUID().toString().replace("-",""));
     }
+
+    public static BoardId boardIdBuilder(String id){
+        return new BoardId(id);
+    }
 }
