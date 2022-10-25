@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Embeddable
 @Getter
@@ -20,5 +22,10 @@ public class BoardLikeMember {
 
     public BoardLikeMember(MemberId memberId) {
         this.memberId = memberId;
+    }
+
+    public static List<BoardLikeMember> of(List<String> likeMembers) {
+        List<MemberId> memberIds = likeMembers.stream().map(MemberId::new).collect(Collectors.toList());
+        return memberIds.stream().map(BoardLikeMember::new).collect(Collectors.toList());
     }
 }

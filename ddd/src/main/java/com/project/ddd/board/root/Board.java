@@ -9,7 +9,9 @@ import com.sun.xml.bind.v2.TODO;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table
@@ -65,9 +67,9 @@ public class Board extends BaseTime {
                 .id(BoardId.of())
                 .boarder(Boarder.of(MemberId.of(boardCreate.getMemberId())))
                 .content(BoardContent.of(boardCreate.getContent()))
-                .tags(BoardTag.of(boardCreate.getTag()))
-                .likeMembers(null)
-                .images(BoardImage.of(boardCreate.getImage()))
+                .tags(BoardTag.of(Optional.ofNullable(boardCreate.getTag()).orElseGet(Collections::emptyList)))
+                .likeMembers(Collections.emptyList())
+                .images(BoardImage.of(Optional.ofNullable(boardCreate.getImage()).orElseGet(Collections::emptyList)))
                 .likes(0)
                 .status(Status.REGISTRATION)
                 .build();

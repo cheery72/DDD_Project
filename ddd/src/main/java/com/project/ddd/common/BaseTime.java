@@ -20,5 +20,4 @@ public abstract class BaseTime {
 
     private LocalDateTime modifyDate;
 
-
 }
