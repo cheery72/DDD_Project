@@ -1,12 +1,12 @@
 package com.project.ddd.board.root;
 
+import com.project.ddd.board.application.dto.BoardCreate;
 import com.project.ddd.board.value.*;
 import com.project.ddd.common.BaseTime;
 import com.project.ddd.common.Status;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.project.ddd.member.value.MemberId;
+import com.sun.xml.bind.v2.TODO;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -48,6 +48,7 @@ public class Board extends BaseTime {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Builder
     public Board(BoardId id, Boarder boarder, BoardContent content, List<BoardTag> tags, List<BoardLikeMember> likeMembers, List<BoardImage> images, int likes, Status status) {
         this.id = id;
         this.boarder = boarder;
@@ -58,4 +59,43 @@ public class Board extends BaseTime {
         this.likes = likes;
         this.status = status;
     }
+
+    public static Board createBoardBuilder(BoardCreate boardCreate){
+        return Board.builder()
+                .id(BoardId.of())
+                .boarder(Boarder.of(MemberId.of(boardCreate.getMemberId())))
+                .content(BoardContent.of(boardCreate.getContent()))
+                .tags(BoardTag.of(boardCreate.getTag()))
+                .likeMembers(null)
+                .images(BoardImage.of(boardCreate.getImage()))
+                .likes(0)
+                .status(Status.REGISTRATION)
+                .build();
+    }
+
+
+    public void changeBoardContent(BoardContent boardContent){
+        this.content = boardContent;
+    }
+
+    // TODO : 변경전 태그 리스트 가져오기
+    public void changeBoardTags(List<BoardTag> tags){
+        this.tags = tags;
+    }
+
+    // TODO : 변경전 좋아요 멤버 리스트 가져오기
+    public void changeBoardLikeMember(List<BoardLikeMember> likeMembers){
+        this.likeMembers = likeMembers;
+    }
+
+    // TODO : 변경전 이미지 가져오기
+    public void changeBoardImage(List<BoardImage> images){
+        this.images = images;
+    }
+
+    // TODO : 변경전 좋아요 수 가져오기
+    public void changeBoardLike(){
+//        this.likes =
+    }
+
 }

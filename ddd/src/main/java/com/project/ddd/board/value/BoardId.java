@@ -9,6 +9,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Embeddable
 @Getter
@@ -23,7 +24,7 @@ public class BoardId implements Serializable {
         this.id = id;
     }
 
-    public static BoardId of(String id) {
-        return new BoardId(id);
+    public static BoardId of() {
+        return new BoardId(UUID.randomUUID().toString().replace("-",""));
     }
 }
