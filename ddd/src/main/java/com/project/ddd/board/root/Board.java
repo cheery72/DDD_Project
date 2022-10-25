@@ -91,8 +91,8 @@ public class Board extends BaseTime {
     }
 
     // TODO : 변경전 이미지 가져오기
-    public void changeBoardImage(List<BoardImage> images){
-        this.images = images;
+    public void changeBoardImage(List<String> images){
+        this.images = BoardImage.of(images);
     }
 
     // TODO : 변경전 좋아요 수 가져오기

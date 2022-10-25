@@ -22,4 +22,8 @@ public class BoardImage {
     public static List<BoardImage> of(List<String> images){
         return images.stream().map(BoardImage::new).collect(Collectors.toList());
     }
+
+    public static List<String> imageBuilder(List<BoardImage> images){
+        return images.stream().map(BoardImage::getImage).collect(Collectors.toList());
+    }
 }
