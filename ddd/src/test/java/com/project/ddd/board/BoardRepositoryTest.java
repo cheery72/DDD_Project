@@ -57,7 +57,7 @@ public class BoardRepositoryTest {
         Optional<Board> optionalBoard = boardRepository.findById(BoardId.of());
         Board board = optionalBoard.orElseThrow(NoSuchElementException::new);
 
-        board.setContent(new BoardContent("수정된 게시글"));
+//        board.setContent(new BoardContent("수정된 게시글"));
         BoardContent boardContent = board.getContent();
         assertThat(boardContent.getContent()).isEqualTo("수정된 게시글");
     }

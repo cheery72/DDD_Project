@@ -2,12 +2,19 @@ package com.project.ddd.board.root;
 
 import com.project.ddd.board.application.dto.BoardCreateDto;
 import com.project.ddd.board.application.dto.BoardDetailDto;
+import com.project.ddd.board.application.dto.BoardListMemberDto;
 import com.project.ddd.board.value.*;
 import com.project.ddd.common.exception.NoSuchBoardException;
+import com.project.ddd.member.root.MemberRepository;
+import com.project.ddd.member.value.MemberId;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -31,5 +38,12 @@ public class BoardService {
                 .orElseThrow(() -> new NoSuchBoardException("요청한 게시글을 찾을 수 없습니다."));
 
         return BoardDetailDto.BoardDetailDtoBuilder(board);
+    }
+
+    public Page<BoardListMemberDto> findBoardPageListMember(Pageable pageable, String memberId){
+        Page<Board> boardList = boardRepository.findPageAllByBoarder(pageable,Boarder.of(MemberId.of(memberId)));
+
+        return new PageImpl<>(BoardListMemberDto.boardListMemberDtoBuilder(boardList),pageable,boardList.getTotalElements());
+
     }
 }
