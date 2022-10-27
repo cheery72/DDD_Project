@@ -15,4 +15,12 @@ public class Email {
     @Column(name = "email")
     private String value;
 
+    public Email(String value) {
+        this.value = value;
+    }
+
+    public static Email of(String email) {
+        return new Email(email);
+    }
+
 }

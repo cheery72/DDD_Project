@@ -77,7 +77,9 @@ public class Board extends BaseTime {
                 .build();
     }
 
-
+    public void deleteBoard(){
+        this.status = Status.REMOVAL;
+    }
 
     // TODO : 변경전 태그 리스트 가져오기
     public void changeBoard(BoardModifyDto boardModifyDto){

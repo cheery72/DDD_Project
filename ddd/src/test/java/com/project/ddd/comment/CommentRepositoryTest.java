@@ -33,7 +33,7 @@ public class CommentRepositoryTest {
     public Comment commentSave(){
         return Comment.builder()
                 .id(id)
-                .commenter(Commenter.of(MemberId.of("asdfqwer"),"member1"))
+                .commenter(Commenter.of(MemberId.of("asdfqwer"),"member1","image"))
                 .image(CommentImage.of("이미지1"))
                 .content(CommentContent.of("새로운 댓글"))
                 .tag(CommentTag.of(List.of("#안녕")))

@@ -22,12 +22,16 @@ public class Commenter implements Serializable {
     @Column(name = "commenter_name")
     private String name;
 
-    public Commenter(MemberId memberId, String name) {
+    @Column(name = "commenter_image")
+    private String image;
+
+    public Commenter(MemberId memberId, String name, String image) {
         this.memberId = memberId;
         this.name = name;
+        this.image = image;
     }
 
-    public static Commenter of(MemberId memberId, String name){
-        return new Commenter(memberId,name);
+    public static Commenter of(MemberId memberId, String name, String image){
+        return new Commenter(memberId,name,image);
     }
 }

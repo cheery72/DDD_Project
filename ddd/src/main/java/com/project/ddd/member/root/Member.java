@@ -6,10 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embedded;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table
@@ -29,6 +26,19 @@ public class Member extends BaseTime {
     @Embedded
     private Name name;
 
-    @Embedded
+    @Enumerated(EnumType.STRING)
+    @Column(name = "member_status")
     private MemberStatus isMember;
+
+    @Embedded
+    private MemberImage image;
+
+    public Member(MemberId memberId, Email email, Password password, Name name, MemberStatus isMember, MemberImage image) {
+        this.memberId = memberId;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.isMember = isMember;
+        this.image = image;
+    }
 }
