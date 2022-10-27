@@ -13,10 +13,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class CommentService {
@@ -24,6 +26,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional
     public void createComment(CommentCreateDto commentCreateDto){
         Member member = memberRepository.findById(MemberId.of(commentCreateDto.getMemberId()))
                 .orElseThrow(NoSuchElementException::new);
@@ -45,10 +48,18 @@ public class CommentService {
         return new PageImpl<>(CommentDetailDto.commentDetailDtoListBuilder(comments),pageable, comments.getTotalElements());
     }
 
+    @Transactional
     public void modifyComment(CommentModifyDto commentModifyDto){
         Comment comment = commentRepository.findById(CommentId.of(commentModifyDto.getCommentId()))
                 .orElseThrow(NoSuchElementException::new);
         comment.changeComment(commentModifyDto);
+    }
+
+    @Transactional
+    public void deleteComment(String commentId){
+        Comment comment = commentRepository.findById(CommentId.of(commentId))
+                .orElseThrow(NoSuchElementException::new);
+        comment.deleteComment();
     }
 
 
