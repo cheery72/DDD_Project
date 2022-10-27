@@ -150,7 +150,7 @@ public class BoardDomainTest {
         Optional<Board> optionalBoard = boardRepository.findById(Objects.requireNonNull(saveBoard).getId());
         Board newBoard = optionalBoard.orElseThrow(NoSuchElementException::new);
         List<String> images = Arrays.asList("이미지1","이미지2");
-        newBoard.changeBoardImage(images);
+//        newBoard.changeBoardImage(images);
         List<String> image = BoardImage.imageBuilder(newBoard.getImages());
 
         assertThat(image).contains("이미지1","이미지2");

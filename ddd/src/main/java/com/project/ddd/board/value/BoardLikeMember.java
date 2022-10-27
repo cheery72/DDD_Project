@@ -24,8 +24,16 @@ public class BoardLikeMember {
         this.memberId = memberId;
     }
 
-    public static List<BoardLikeMember> of(List<String> likeMembers) {
+    public static BoardLikeMember of(MemberId memberId){
+        return new BoardLikeMember(memberId);
+    }
+
+    public static List<BoardLikeMember> ofList(List<String> likeMembers) {
         List<MemberId> memberIds = likeMembers.stream().map(MemberId::new).collect(Collectors.toList());
         return memberIds.stream().map(BoardLikeMember::new).collect(Collectors.toList());
+    }
+
+    public static List<String> likeBuilder(List<BoardLikeMember> likeMembers){
+        return likeMembers.stream().map(BoardLikeMember::getMemberId).map(MemberId::getId).collect(Collectors.toList());
     }
 }

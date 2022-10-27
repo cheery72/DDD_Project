@@ -1,6 +1,7 @@
 package com.project.ddd.board.root;
 
 import com.project.ddd.board.application.dto.BoardCreateDto;
+import com.project.ddd.board.application.dto.BoardLikeDto;
 import com.project.ddd.board.application.dto.BoardModifyDto;
 import com.project.ddd.board.value.*;
 import com.project.ddd.common.BaseTime;
@@ -12,6 +13,8 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static com.project.ddd.board.application.dto.BoardLikeDto.*;
 
 @Entity
 @Table
@@ -84,8 +87,21 @@ public class Board extends BaseTime {
     }
 
     // TODO : 변경전 좋아요 수 가져오기
-    public void changeBoardLike(){
-//        this.likes =
+    public void changeBoardLike(Board board, BoardLikeRequest boardLikeRequest){
+        int like = board.getLikes();
+        List<String> likeMembers = BoardLikeMember.likeBuilder(board.getLikeMembers());
+        String likeMember = boardLikeRequest.getMemberId();
+
+        if((likeMembers).contains(likeMember)){
+            likeMembers.remove(likeMember);
+            like--;
+        }else{
+            likeMembers.add(likeMember);
+            like++;
+        }
+
+        this.likeMembers = BoardLikeMember.ofList(likeMembers);
+        this.likes = like;
     }
 
 }
