@@ -27,4 +27,13 @@ public class ServiceExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
+    @ExceptionHandler(NoSuchMemberException.class)
+    protected ResponseEntity<?> handleNoSuchMemberException(NoSuchMemberException e){
+        final ErrorResponse errorResponse = ErrorResponse.builder()
+                .code("Member Not Found")
+                .message(e.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
 }

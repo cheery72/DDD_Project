@@ -5,6 +5,8 @@ import com.project.ddd.comment.application.dto.CommentCreateDto;
 import com.project.ddd.comment.application.dto.CommentDetailDto;
 import com.project.ddd.comment.application.dto.CommentModifyDto;
 import com.project.ddd.comment.value.CommentId;
+import com.project.ddd.common.exception.NoSuchCommentException;
+import com.project.ddd.common.exception.NoSuchMemberException;
 import com.project.ddd.member.root.Member;
 import com.project.ddd.member.root.MemberRepository;
 import com.project.ddd.member.value.*;
@@ -29,7 +31,7 @@ public class CommentService {
     @Transactional
     public void createComment(CommentCreateDto commentCreateDto){
         Member member = memberRepository.findById(MemberId.of(commentCreateDto.getMemberId()))
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchMemberException("멤버를 찾을 수 없습니다."));
 
         Comment comment = Comment.commentBuilder(commentCreateDto, member);
         commentRepository.save(comment);
@@ -37,7 +39,7 @@ public class CommentService {
 
     public CommentDetailDto findCommentDetail(String commentId){
         Comment comment = commentRepository.findById(CommentId.of(commentId))
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchCommentException("요청한 댓글을 찾을 수 없습니다."));
 
         return CommentDetailDto.commentDetailDtoBuilder(comment);
     }
@@ -51,14 +53,14 @@ public class CommentService {
     @Transactional
     public void modifyComment(CommentModifyDto commentModifyDto){
         Comment comment = commentRepository.findById(CommentId.of(commentModifyDto.getCommentId()))
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchCommentException("요청한 댓글을 찾을 수 없습니다."));
         comment.changeComment(commentModifyDto);
     }
 
     @Transactional
     public void deleteComment(String commentId){
         Comment comment = commentRepository.findById(CommentId.of(commentId))
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchCommentException("요청한 댓글을 찾을 수 없습니다."));
         comment.deleteComment();
     }
 
