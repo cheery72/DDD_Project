@@ -8,6 +8,7 @@ import com.project.ddd.board.root.BoardRepository;
 import com.project.ddd.board.root.BoardService;
 import com.project.ddd.board.value.*;
 import com.project.ddd.common.Status;
+import com.project.ddd.member.root.MemberRepository;
 import com.project.ddd.member.value.MemberId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,6 +36,9 @@ public class BoardDomainTest {
 
     @Mock
     private BoardRepository boardRepository;
+
+    @Mock
+    private MemberRepository memberRepository;
 
     @InjectMocks
     private BoardService boardService;
@@ -87,18 +91,29 @@ public class BoardDomainTest {
     }
 
     @Test
-    @DisplayName("유저 게시글 조회")
+    @DisplayName("유저 게시글 페이징 조회")
     public void findMemberBoard(){
         Board saveBoard = boardSave();
+        List<Board> boardList = new ArrayList<>();
 
+        for (int i = 0; i < 5; i++) {
+            boardList.add(board);
+        }
 
-        when(boardRepository.findByBoarder(any()))
-                .thenReturn(Optional.ofNullable(saveBoard));
+        Pageable pageable = PageRequest.of(1,2);
+        Page<Board> page = new PageImpl<>(boardList,pageable,boardList.size());
 
-        Optional<Board> optionalBoard = boardRepository.findByBoarder(Objects.requireNonNull(saveBoard).getBoarder());
-        Board newBoard = optionalBoard.orElseThrow(NoSuchElementException::new);
+        String id = saveBoard.getBoarder().getMemberId().getId();
 
-        assertEquals(Objects.requireNonNull(saveBoard).getId().getId(),newBoard.getId().getId());
+        MemberId memberId = MemberId.of(id);
+        Boarder boarder = Boarder.of(memberId);
+
+        when(boardRepository.findPageAllByBoarder(pageable,boarder))
+                .thenReturn(page);
+
+        Page<Board> newBoardList = boardRepository.findPageAllByBoarder(pageable,boarder);
+
+        assertThat(page).isEqualTo(newBoardList);
 
     }
 
@@ -120,7 +135,7 @@ public class BoardDomainTest {
 
         Page<Board> boardPage = boardRepository.findAll(pageable);
 
-        System.out.println();
+        assertThat(page).isEqualTo(boardPage);
 
     }
 
