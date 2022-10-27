@@ -45,7 +45,7 @@ public class BoardDomainTest {
 
     public Board boardSave(){
         return Board.builder()
-                .id(BoardId.of())
+                .id(BoardId.createBoardId())
                 .boarder(Boarder.of(MemberId.of("user1")))
                 .content(BoardContent.of("새로운게시글"))
                 .tags(BoardTag.of(List.of("#tag")))

@@ -1,6 +1,7 @@
 package com.project.ddd.board.root;
 
 import com.project.ddd.board.application.dto.BoardCreateDto;
+import com.project.ddd.board.application.dto.BoardModifyDto;
 import com.project.ddd.board.value.*;
 import com.project.ddd.common.BaseTime;
 import com.project.ddd.common.Status;
@@ -62,7 +63,7 @@ public class Board extends BaseTime {
 
     public static Board createBoardBuilder(BoardCreateDto boardCreateDto){
         return Board.builder()
-                .id(BoardId.of())
+                .id(BoardId.createBoardId())
                 .boarder(Boarder.of(MemberId.of(boardCreateDto.getMemberId())))
                 .content(BoardContent.of(boardCreateDto.getContent()))
                 .tags(BoardTag.of(Optional.ofNullable(boardCreateDto.getTag()).orElseGet(Collections::emptyList)))
@@ -74,23 +75,12 @@ public class Board extends BaseTime {
     }
 
 
-    public void changeBoardContent(BoardContent boardContent){
-        this.content = boardContent;
-    }
 
     // TODO : 변경전 태그 리스트 가져오기
-    public void changeBoardTags(List<BoardTag> tags){
-        this.tags = tags;
-    }
-
-    // TODO : 변경전 좋아요 멤버 리스트 가져오기
-    public void changeBoardLikeMember(List<BoardLikeMember> likeMembers){
-        this.likeMembers = likeMembers;
-    }
-
-    // TODO : 변경전 이미지 가져오기
-    public void changeBoardImage(List<String> images){
-        this.images = BoardImage.of(images);
+    public void changeBoard(BoardModifyDto boardModifyDto){
+        this.content = BoardContent.of(boardModifyDto.getContent());
+        this.tags = BoardTag.of(boardModifyDto.getTag());
+        this.images = BoardImage.of(boardModifyDto.getImage());
     }
 
     // TODO : 변경전 좋아요 수 가져오기
