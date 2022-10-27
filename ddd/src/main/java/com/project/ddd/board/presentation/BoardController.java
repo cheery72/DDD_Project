@@ -3,6 +3,7 @@ package com.project.ddd.board.presentation;
 import com.project.ddd.board.application.dto.BoardCreateDto;
 import com.project.ddd.board.application.dto.BoardDetailDto;
 import com.project.ddd.board.application.dto.BoardListMemberDto;
+import com.project.ddd.board.application.dto.BoardModifyDto;
 import com.project.ddd.board.root.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,12 +43,30 @@ public class BoardController {
     }
 
     @GetMapping("/{memberId}/member-board")
-    public ResponseEntity<Page<BoardListMemberDto>> boardPageListMemberFind(@PageableDefault(size = 2, sort = "createDate",
+    public ResponseEntity<Page<BoardListMemberDto>> boardPageListMemberFind(@PageableDefault(size = 4, sort = "createDate",
                                                                     direction = Sort.Direction.DESC) Pageable pageable,
                                                                            @PathVariable String memberId){
-        log.info("member board list find start -- ");
+        log.info("member board list find start ---- ");
 
         return ResponseEntity
                 .ok(boardService.findBoardPageListMember(pageable,memberId));
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<Object> boardModify(@RequestBody @Valid BoardModifyDto boardModifyDto){
+        log.info("board modify start ----");
+
+        boardService.modifyBoard(boardModifyDto);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<Object> boardDelete(@PathVariable String boardId){
+        log.info("board delete start ----");
+
+        boardService.deleteBoard(boardId);
+
+        return ResponseEntity.noContent().build();
     }
 }

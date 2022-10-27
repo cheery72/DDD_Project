@@ -24,11 +24,11 @@ public class BoardId implements Serializable {
         this.id = id;
     }
 
-    public static BoardId of() {
+    public static BoardId createBoardId() {
         return new BoardId(UUID.randomUUID().toString().replace("-",""));
     }
 
-    public static BoardId boardIdBuilder(String id){
+    public static BoardId of(String id){
         return new BoardId(id);
     }
 }
