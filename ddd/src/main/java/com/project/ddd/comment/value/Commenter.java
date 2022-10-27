@@ -26,4 +26,8 @@ public class Commenter implements Serializable {
         this.memberId = memberId;
         this.name = name;
     }
+
+    public static Commenter of(MemberId memberId, String name){
+        return new Commenter(memberId,name);
+    }
 }

@@ -23,6 +23,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.*;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,9 +50,9 @@ public class BoardDomainTest {
                 .boarder(Boarder.of(MemberId.of("user1")))
                 .content(BoardContent.of("새로운게시글"))
                 .tags(BoardTag.of(List.of("#tag")))
-                .likeMembers(Collections.emptyList())
+                .likeMembers(List.of(BoardLikeMember.of(MemberId.of("user2"))))
                 .images(BoardImage.of(List.of("image")))
-                .likes(0)
+                .likes(1)
                 .status(Status.REGISTRATION)
                 .build();
     }
@@ -178,5 +179,68 @@ public class BoardDomainTest {
         Optional<Board> optionalBoard2 = boardRepository.findById(Objects.requireNonNull(newBoard).getId());
         Board newBoard2 = optionalBoard.orElseThrow(NoSuchElementException::new);
 //        assertThat(saveBoard).isTrue();
+    }
+
+    @Test
+    @DisplayName("게시글 좋아요 추가")
+    public void increaseLikeBoard(){
+        Board saveBoard = boardSave();
+        String likeMemberId = "user1";
+
+        when(boardRepository.findById(any()))
+                .thenReturn(Optional.ofNullable(saveBoard));
+
+        int like = Objects.requireNonNull(saveBoard).getLikes();
+        List<String> likeMembers = BoardLikeMember.likeBuilder(saveBoard.getLikeMembers());
+
+        if(!(likeMembers).contains(likeMemberId)){
+            likeMembers.add(likeMemberId);
+            like++;
+        }
+
+        assertThat(like).isEqualTo(2);
+        assertThat(likeMembers).contains("user1");
+    }
+
+    @Test
+    @DisplayName("게시글 좋아요 추가 실패")
+    public void increaseLikeBoardFail(){
+        Board saveBoard = boardSave();
+        String likeMemberId = "user2";
+
+        when(boardRepository.findById(any()))
+                .thenReturn(Optional.ofNullable(saveBoard));
+
+        int like = Objects.requireNonNull(saveBoard).getLikes();
+        List<String> likeMembers = BoardLikeMember.likeBuilder(saveBoard.getLikeMembers());
+
+        if(!(likeMembers).contains(likeMemberId)){
+            likeMembers.add(likeMemberId);
+            like++;
+        }
+
+        assertThat(like).isEqualTo(1);
+        assertThat(likeMembers).contains("user2");
+    }
+
+    @Test
+    @DisplayName("게시글 좋아요 해제")
+    public void decreaseLikeBoard(){
+        Board saveBoard = boardSave();
+        String likeMemberId = "user2";
+
+        when(boardRepository.findById(any()))
+                .thenReturn(Optional.ofNullable(saveBoard));
+
+        int like = Objects.requireNonNull(saveBoard).getLikes();
+        List<String> likeMembers = BoardLikeMember.likeBuilder(saveBoard.getLikeMembers());
+
+        if((likeMembers).contains(likeMemberId)){
+            likeMembers.remove(likeMemberId);
+            like--;
+        }
+
+        assertThat(like).isEqualTo(0);
+        assertThat(likeMembers).isEqualTo(Collections.emptyList());
     }
 }

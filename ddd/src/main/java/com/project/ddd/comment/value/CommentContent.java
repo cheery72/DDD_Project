@@ -1,5 +1,6 @@
 package com.project.ddd.comment.value;
 
+import com.project.ddd.board.value.BoardContent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,9 @@ public class CommentContent {
     public CommentContent(String content) {
         this.content = content;
     }
+
+    public static CommentContent of(String content){
+        return new CommentContent(content);
+    }
+
 }
