@@ -4,6 +4,7 @@ package com.project.ddd.comment.root;
 import com.project.ddd.comment.value.*;
 import com.project.ddd.common.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,12 +40,14 @@ public class Comment extends BaseTime {
     @Column(name = "comment_status")
     private Status status;
 
-    public Comment(CommentId id, Commenter commenter, CommentImage image, CommentContent content, List<CommentTag> tag, Status status) {
+    @Builder
+    public Comment(CommentId id, Commenter commenter, CommentImage image, CommentContent content, List<CommentTag> tag, int likes, Status status) {
         this.id = id;
         this.commenter = commenter;
         this.image = image;
         this.content = content;
         this.tag = tag;
+        this.likes = likes;
         this.status = status;
     }
 }

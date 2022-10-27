@@ -70,7 +70,7 @@ public class BoardController {
     }
 
     @PutMapping("/like")
-    public ResponseEntity<BoardLikeResponse> boardLike(@RequestBody BoardLikeRequest boardLikeRequest){
+    public ResponseEntity<BoardLikeResponse> boardLikeChange(@RequestBody BoardLikeRequest boardLikeRequest){
         log.info("board like start ----");
 
         return ResponseEntity
