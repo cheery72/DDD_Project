@@ -1,9 +1,6 @@
 package com.project.ddd.board.presentation;
 
-import com.project.ddd.board.application.dto.BoardCreateDto;
-import com.project.ddd.board.application.dto.BoardDetailDto;
-import com.project.ddd.board.application.dto.BoardListMemberDto;
-import com.project.ddd.board.application.dto.BoardModifyDto;
+import com.project.ddd.board.application.dto.*;
 import com.project.ddd.board.root.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import static com.project.ddd.board.application.dto.BoardLikeDto.*;
 
 @RestController
 @RequestMapping("/board")
@@ -68,5 +67,14 @@ public class BoardController {
         boardService.deleteBoard(boardId);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/like")
+    public ResponseEntity<BoardLikeResponse> boardLike(@RequestBody BoardLikeRequest boardLikeRequest){
+        log.info("board like start ----");
+
+        return ResponseEntity
+                .ok()
+                .body(boardService.changeLikeBoard(boardLikeRequest));
     }
 }

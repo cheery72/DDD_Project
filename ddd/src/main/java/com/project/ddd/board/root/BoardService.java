@@ -1,9 +1,7 @@
 package com.project.ddd.board.root;
 
-import com.project.ddd.board.application.dto.BoardCreateDto;
-import com.project.ddd.board.application.dto.BoardDetailDto;
-import com.project.ddd.board.application.dto.BoardListMemberDto;
-import com.project.ddd.board.application.dto.BoardModifyDto;
+import com.project.ddd.board.application.dto.*;
+import com.project.ddd.board.application.dto.BoardLikeDto.BoardLikeRequest;
 import com.project.ddd.board.value.*;
 import com.project.ddd.common.exception.NoSuchBoardException;
 import com.project.ddd.member.root.MemberRepository;
@@ -19,6 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static com.project.ddd.board.application.dto.BoardLikeDto.*;
 import static com.project.ddd.board.root.Board.createBoardBuilder;
 
 @Service
@@ -59,5 +58,17 @@ public class BoardService {
         Board board = boardRepository.findById(BoardId.of(boardId))
                 .orElseThrow(() -> new NoSuchBoardException("요청한 게시글을 찾을 수 없습니다."));
         boardRepository.deleteById(board.getId());
+    }
+
+    @Transactional
+    public BoardLikeResponse changeLikeBoard(BoardLikeRequest boardLikeRequest){
+        Board board = boardRepository.findById(BoardId.of(boardLikeRequest.getBoardId()))
+                .orElseThrow(() -> new NoSuchBoardException("요청한 게시글을 찾을 수 없습니다."));
+        board.changeBoardLike(board,boardLikeRequest);
+
+        return BoardLikeResponse.builder()
+                .likes(board.getLikes())
+                .memberList(BoardLikeMember.likeBuilder(board.getLikeMembers()))
+                .build();
     }
 }
