@@ -1,7 +1,7 @@
 package com.project.ddd.board;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.ddd.board.application.dto.BoardCreate;
+import com.project.ddd.board.application.dto.BoardCreateDto;
 import com.project.ddd.board.application.dto.BoardDetailDto;
 import com.project.ddd.board.root.Board;
 import com.project.ddd.board.root.BoardRepository;
@@ -12,22 +12,19 @@ import com.project.ddd.member.value.MemberId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.sql.Array;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")
@@ -65,13 +62,13 @@ public class BoardDomainTest {
     @Test
     @DisplayName("새로운 게시글 저장")
     public void createBoard() {
-        BoardCreate boardCreate = new BoardCreate("user1","새로운게시글", List.of("#tag"),List.of("image"));
+        BoardCreateDto boardCreateDto = new BoardCreateDto("user1","새로운게시글", List.of("#tag"),List.of("image"));
         Board saveBoard = boardSave();
 
         when(boardRepository.save(any()))
                 .thenReturn(saveBoard);
 
-        boardService.createBoard(boardCreate);
+        boardService.createBoard(boardCreateDto);
 //        assertEquals(saveBoard.getId(),boardId);
     }
 
@@ -102,6 +99,26 @@ public class BoardDomainTest {
         Board newBoard = optionalBoard.orElseThrow(NoSuchElementException::new);
 
         assertEquals(Objects.requireNonNull(saveBoard).getId().getId(),newBoard.getId().getId());
+
+    }
+
+    @Test
+    @DisplayName("페이징 게시글 조회")
+    public void findPaginationBoard(){
+        Board board = boardSave();
+        List<Board> boardList = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            boardList.add(board);
+        }
+
+        Pageable pageable = PageRequest.of(1,2);
+        Page<Board> page = new PageImpl<>(boardList,pageable,boardList.size());
+
+        when(boardRepository.findAll(pageable))
+                .thenReturn(page);
+
+        Page<Board> boardPage = boardRepository.findAll(pageable);
 
         System.out.println();
 

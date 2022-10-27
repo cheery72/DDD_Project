@@ -1,11 +1,10 @@
 package com.project.ddd.board.root;
 
-import com.project.ddd.board.application.dto.BoardCreate;
+import com.project.ddd.board.application.dto.BoardCreateDto;
 import com.project.ddd.board.value.*;
 import com.project.ddd.common.BaseTime;
 import com.project.ddd.common.Status;
 import com.project.ddd.member.value.MemberId;
-import com.sun.xml.bind.v2.TODO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +16,6 @@ import java.util.Optional;
 @Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
 public class Board extends BaseTime {
 
     @EmbeddedId
@@ -62,14 +60,14 @@ public class Board extends BaseTime {
         this.status = status;
     }
 
-    public static Board createBoardBuilder(BoardCreate boardCreate){
+    public static Board createBoardBuilder(BoardCreateDto boardCreateDto){
         return Board.builder()
                 .id(BoardId.of())
-                .boarder(Boarder.of(MemberId.of(boardCreate.getMemberId())))
-                .content(BoardContent.of(boardCreate.getContent()))
-                .tags(BoardTag.of(Optional.ofNullable(boardCreate.getTag()).orElseGet(Collections::emptyList)))
+                .boarder(Boarder.of(MemberId.of(boardCreateDto.getMemberId())))
+                .content(BoardContent.of(boardCreateDto.getContent()))
+                .tags(BoardTag.of(Optional.ofNullable(boardCreateDto.getTag()).orElseGet(Collections::emptyList)))
                 .likeMembers(Collections.emptyList())
-                .images(BoardImage.of(Optional.ofNullable(boardCreate.getImage()).orElseGet(Collections::emptyList)))
+                .images(BoardImage.of(Optional.ofNullable(boardCreateDto.getImage()).orElseGet(Collections::emptyList)))
                 .likes(0)
                 .status(Status.REGISTRATION)
                 .build();
