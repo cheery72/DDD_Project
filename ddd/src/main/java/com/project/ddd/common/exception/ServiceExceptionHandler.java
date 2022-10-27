@@ -18,4 +18,13 @@ public class ServiceExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
+    @ExceptionHandler(NoSuchCommentException.class)
+    protected ResponseEntity<?> handleNoSuchCommentException(NoSuchCommentException e){
+        final ErrorResponse errorResponse = ErrorResponse.builder()
+                .code("Comment Not Found")
+                .message(e.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
 }
