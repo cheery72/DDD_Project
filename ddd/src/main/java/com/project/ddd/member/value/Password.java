@@ -15,8 +15,12 @@ public class Password {
     @Column(name = "password")
     private String value;
 
-
     public Password(String value) {
         this.value = value;
     }
+
+    public static Password of(String value) {
+        return new Password(value);
+    }
+
 }

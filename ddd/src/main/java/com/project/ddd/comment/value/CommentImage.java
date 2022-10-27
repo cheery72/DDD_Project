@@ -1,6 +1,5 @@
 package com.project.ddd.comment.value;
 
-import com.project.ddd.board.value.BoardImage;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

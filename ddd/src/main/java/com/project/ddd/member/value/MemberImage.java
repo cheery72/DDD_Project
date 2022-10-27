@@ -1,26 +1,25 @@
 package com.project.ddd.member.value;
 
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Name {
+public class MemberImage {
 
-    @Column(name = "name")
-    private String value;
+    private String image;
 
-    public Name(String value) {
-        this.value = value;
+    public MemberImage(String image) {
+        this.image = image;
     }
 
-    public static Name of(String name) {
-        return new Name(name);
+    public static MemberImage of(String image) {
+        return new MemberImage(image);
     }
 
 }

@@ -38,9 +38,6 @@ public class BoardDomainTest {
     @Mock
     private BoardRepository boardRepository;
 
-    @Mock
-    private MemberRepository memberRepository;
-
     @InjectMocks
     private BoardService boardService;
 
@@ -162,23 +159,10 @@ public class BoardDomainTest {
     public void deleteBoard(){
         Board saveBoard = boardSave();
 
-//        when(boardRepository.save(any()))
-//                .thenReturn(Optional.ofNullable(saveBoard));
+        saveBoard.deleteBoard();
 
-        when(boardRepository.findById(any()))
-                .thenReturn(Optional.ofNullable(saveBoard));
+        assertThat(saveBoard.getStatus()).isEqualTo(Status.REMOVAL);
 
-        Optional<Board> optionalBoard = boardRepository.findById(Objects.requireNonNull(saveBoard).getId());
-        Board newBoard = optionalBoard.orElseThrow(NoSuchElementException::new);
-        boardRepository.delete(saveBoard);
-        verify(boardRepository).delete(any());
-        when(boardRepository.findById(any()))
-                .thenReturn(Optional.of(saveBoard));
-        when(boardRepository.findById(any()))
-                .thenReturn(Optional.of(newBoard));
-        Optional<Board> optionalBoard2 = boardRepository.findById(Objects.requireNonNull(newBoard).getId());
-        Board newBoard2 = optionalBoard.orElseThrow(NoSuchElementException::new);
-//        assertThat(saveBoard).isTrue();
     }
 
     @Test

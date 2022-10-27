@@ -57,7 +57,8 @@ public class BoardService {
     public void deleteBoard(String boardId){
         Board board = boardRepository.findById(BoardId.of(boardId))
                 .orElseThrow(() -> new NoSuchBoardException("요청한 게시글을 찾을 수 없습니다."));
-        boardRepository.deleteById(board.getId());
+
+        board.deleteBoard();
     }
 
     @Transactional
