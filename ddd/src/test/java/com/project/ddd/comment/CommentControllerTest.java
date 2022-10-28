@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.ddd.board.value.BoardId;
 import com.project.ddd.comment.application.dto.CommentCreateDto;
+import com.project.ddd.comment.application.dto.CommentLikeDto;
 import com.project.ddd.comment.application.dto.CommentModifyDto;
 import com.project.ddd.comment.presentation.CommentController;
 import com.project.ddd.comment.root.Comment;
@@ -35,15 +36,18 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import static com.project.ddd.comment.application.dto.CommentLikeDto.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.controller;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -60,6 +64,8 @@ public class CommentControllerTest  {
     private CommentRepository commentRepository;
 
     private final String BASE_URL = "/comment";
+
+    private final String commentId = "5b818662119e473399f229a15f8ff4fa";
 
     @Autowired
     private WebApplicationContext ctx;
@@ -101,8 +107,6 @@ public class CommentControllerTest  {
     @Test
     @DisplayName("댓글 상세정보 조회")
     public void findCommentDetail() throws Exception {
-        String commentId = "5bcdbc22ea3a4c1092dad74384b826e2";
-
         mockMvc.perform(get(BASE_URL+"/"+commentId+"/detail"))
                 .andExpect(status().isOk());
     }
@@ -140,9 +144,39 @@ public class CommentControllerTest  {
     @Test
     @DisplayName("댓글 삭제")
     public void deleteComment() throws Exception {
-        String commentId = "5b818662119e473399f229a15f8ff4fa";
-
         mockMvc.perform(delete(BASE_URL+"/"+commentId))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("댓글 좋아요 추가")
+    public void increaseLikeComment() throws Exception {
+        String body = objectMapper
+                .writeValueAsString(new CommentLikeRequest(commentId,"user2"));
+        String response = objectMapper
+                .writeValueAsString(new CommentLikeResponse(1,List.of("user2")));
+
+        mockMvc.perform(put(BASE_URL+"/like")
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo(response)));
+
+    }
+
+    @Test
+    @DisplayName("댓글 좋아요 감소")
+    public void decreaseLikeComment() throws Exception {
+        String body = objectMapper
+                .writeValueAsString(new CommentLikeRequest(commentId,"user2"));
+        String response = objectMapper
+                .writeValueAsString(new CommentLikeResponse(0, Collections.emptyList()));
+
+        mockMvc.perform(put(BASE_URL+"/like")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo(response)));
+
     }
 }

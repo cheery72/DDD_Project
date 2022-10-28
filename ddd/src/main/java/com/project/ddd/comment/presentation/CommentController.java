@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.project.ddd.comment.application.dto.CommentLikeDto.*;
+
 
 @RestController
 @RequestMapping("/comment")
@@ -67,5 +69,14 @@ public class CommentController {
         commentService.deleteComment(commentId);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/like")
+    public ResponseEntity<CommentLikeResponse> commentLikeChange(@RequestBody CommentLikeRequest commentLikeRequest){
+        log.info("comment like start ----");
+
+        return ResponseEntity
+                .ok()
+                .body(commentService.changeLikeBoard(commentLikeRequest));
     }
 }

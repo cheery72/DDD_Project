@@ -20,7 +20,7 @@ public class CommentLikeMember {
 
     @Embedded
     @AttributeOverrides(
-            @AttributeOverride(name = "id", column = @Column(name = "board_like_member_id"))
+            @AttributeOverride(name = "id", column = @Column(name = "comment_like_member_id"))
     )
     private MemberId memberId;
 
