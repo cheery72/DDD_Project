@@ -72,7 +72,7 @@ public class CommentController {
     }
 
     @PutMapping("/like")
-    public ResponseEntity<CommentLikeResponse> commentLikeChange(@RequestBody CommentLikeRequest commentLikeRequest){
+    public ResponseEntity<CommentLikeResponse> commentLikeChange(@RequestBody @Valid CommentLikeRequest commentLikeRequest){
         log.info("comment like start ----");
 
         return ResponseEntity

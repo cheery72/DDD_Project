@@ -1,5 +1,6 @@
 package com.project.ddd.board.application.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@Builder
 public class BoardCreateDto {
 
     @NotBlank

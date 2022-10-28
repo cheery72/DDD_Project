@@ -2,8 +2,10 @@ package com.project.ddd.comment;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.ddd.board.application.dto.BoardDetailDto;
 import com.project.ddd.board.value.BoardId;
 import com.project.ddd.comment.application.dto.CommentCreateDto;
+import com.project.ddd.comment.application.dto.CommentDetailDto;
 import com.project.ddd.comment.application.dto.CommentLikeDto;
 import com.project.ddd.comment.application.dto.CommentModifyDto;
 import com.project.ddd.comment.presentation.CommentController;
@@ -107,8 +109,14 @@ public class CommentControllerTest  {
     @Test
     @DisplayName("댓글 상세정보 조회")
     public void findCommentDetail() throws Exception {
+        CommentDetailDto commentDetailDto =
+                new CommentDetailDto(commentId,"asdf","첫번째 댓글"
+                        ,Collections.emptyList(),"이미지1",0);
+
+
         mockMvc.perform(get(BASE_URL+"/"+commentId+"/detail"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo(commentDetailDto)));
     }
 
     @Test
