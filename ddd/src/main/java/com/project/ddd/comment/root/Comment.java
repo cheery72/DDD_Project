@@ -10,6 +10,7 @@ import com.project.ddd.comment.value.*;
 import com.project.ddd.common.*;
 import com.project.ddd.member.root.Member;
 import com.project.ddd.member.value.MemberId;
+import com.project.ddd.member.value.Name;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -91,7 +92,7 @@ public class Comment extends BaseTime {
         return Comment.builder()
                 .id(CommentId.createCommentId())
                 .boardId(BoardId.of(commentCreateDto.getBoardId()))
-                .commenter(Commenter.of(MemberId.of(commentCreateDto.getMemberId()), member.getName().toString(), member.getImage().toString()))
+                .commenter(Commenter.of(MemberId.of(commentCreateDto.getMemberId()), member.getName().toString(),member.getImage().toString()))
                 .image(CommentImage.of(commentCreateDto.getImage()))
                 .content(CommentContent.of(commentCreateDto.getContent()))
                 .tag(Optional.ofNullable(CommentTag.of(commentCreateDto.getTags())).orElseGet(Collections::emptyList))

@@ -1,5 +1,6 @@
 package com.project.ddd.comment;
 
+import com.project.ddd.board.value.BoardId;
 import com.project.ddd.comment.root.Comment;
 import com.project.ddd.comment.root.CommentRepository;
 import com.project.ddd.comment.value.*;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -28,7 +30,7 @@ public class CommentRepositoryTest {
     @Autowired
     private CommentRepository commentRepository;
 
-    private final CommentId id = CommentId.of("asdf");
+    private final CommentId id = CommentId.of("asdssss");
 
     public Comment commentSave(){
         return Comment.builder()
@@ -38,11 +40,13 @@ public class CommentRepositoryTest {
                 .content(CommentContent.of("새로운 댓글"))
                 .tag(CommentTag.of(List.of("#안녕")))
                 .likes(0)
+                .likeMembers(Collections.emptyList())
+                .boardId(BoardId.of("346558b07dc34359b737dbfc3226078c"))
                 .status(Status.REGISTRATION)
                 .build();
     }
 
-    @BeforeEach
+    @Test
     @DisplayName("댓글 저장 테스트")
     public void saveComment() {
         Comment comment = commentSave();
