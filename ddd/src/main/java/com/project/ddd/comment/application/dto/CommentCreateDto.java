@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @AllArgsConstructor
@@ -13,8 +14,10 @@ import java.util.List;
 @Builder
 public class CommentCreateDto {
 
+    @NotBlank
     private String boardId;
 
+    @NotBlank
     private String memberId;
 
     private String content;
