@@ -8,10 +8,15 @@ import com.project.ddd.member.value.MemberId;
 import com.project.ddd.order.application.dto.OrderCreateDto;
 import com.project.ddd.order.application.dto.OrderDetailDto;
 import com.project.ddd.order.value.OrderId;
+import com.project.ddd.order.value.Orderer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Transactional(readOnly = true)
@@ -37,6 +42,13 @@ public class OrderService {
         return OrderDetailDto.orderDetailDtoBuilder(order);
     }
 
+    public Page<OrderDetailDto> findUserOrder(Pageable pageable, String memberId){
+        Page<Order> orders = orderRepository.findPageByOrderer(pageable, Orderer.of(MemberId.of(memberId)));
+
+        return new PageImpl<>(OrderDetailDto.orderListDetailDtoBuilder(orders),pageable,orders.getTotalElements());
+
+    }
+    
     @Transactional
     public void cancelOrder(String orderId){
         Order order = orderRepository.findById(OrderId.of(orderId))
