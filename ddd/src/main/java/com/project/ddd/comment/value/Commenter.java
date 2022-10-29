@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Commenter implements Serializable {
+public class Commenter {
 
     @Embedded
     @AttributeOverrides(
