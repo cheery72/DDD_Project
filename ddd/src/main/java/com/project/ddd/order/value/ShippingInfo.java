@@ -13,7 +13,6 @@ import javax.persistence.*;
 public class ShippingInfo {
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "metropolitanCity", column = @Column(name = "shipping_metropolitan_city")),
             @AttributeOverride(name = "city", column = @Column(name = "shipping_city")),
             @AttributeOverride(name = "gu", column = @Column(name = "shipping_gu")),
             @AttributeOverride(name = "dong", column = @Column(name = "shipping_dong")),
@@ -31,6 +30,10 @@ public class ShippingInfo {
         this.address = address;
         this.message = message;
         this.receiver = receiver;
+    }
+
+    public static ShippingInfo of(Address address, String message, Receiver receiver){
+        return new ShippingInfo(address,message,receiver);
     }
 
 }

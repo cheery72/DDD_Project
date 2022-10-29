@@ -26,5 +26,10 @@ public class OrderLine {
         this.quantity = quantity;
         this.amount = amount;
     }
+
+
+    public static OrderLine of (BoardId boardId, int quantity, int amount){
+        return new OrderLine(boardId,quantity,amount);
+    }
 }
 
