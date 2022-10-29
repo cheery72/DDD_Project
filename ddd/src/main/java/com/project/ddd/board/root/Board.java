@@ -52,8 +52,10 @@ public class Board extends BaseTime {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    private int price;
+
     @Builder
-    public Board(BoardId id, Boarder boarder, BoardContent content, List<BoardTag> tags, List<BoardLikeMember> likeMembers, List<BoardImage> images, int likes, Status status) {
+    public Board(BoardId id, Boarder boarder, BoardContent content, List<BoardTag> tags, List<BoardLikeMember> likeMembers, List<BoardImage> images, int likes, Status status, int price) {
         this.id = id;
         this.boarder = boarder;
         this.content = content;
@@ -62,6 +64,7 @@ public class Board extends BaseTime {
         this.images = images;
         this.likes = likes;
         this.status = status;
+        this.price = price;
     }
 
     public static Board createBoardBuilder(BoardCreateDto boardCreateDto){
