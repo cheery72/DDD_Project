@@ -46,5 +46,14 @@ public class OrderService {
         Page<Order> orders = orderRepository.findPageByOrderer(pageable, Orderer.of(MemberId.of(memberId)));
 
         return new PageImpl<>(OrderDetailDto.orderListDetailDtoBuilder(orders),pageable,orders.getTotalElements());
+
+    }
+    
+    @Transactional
+    public void cancelOrder(String orderId){
+        Order order = orderRepository.findById(OrderId.of(orderId))
+                .orElseThrow(() -> new NoSuchElementException("요청한 주문이 없습니다."));
+
+        order.changeOrderStatus();
     }
 }
