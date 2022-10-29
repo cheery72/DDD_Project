@@ -37,5 +37,11 @@ public class OrderService {
         return OrderDetailDto.orderDetailDtoBuilder(order);
     }
 
+    @Transactional
+    public void cancelOrder(String orderId){
+        Order order = orderRepository.findById(OrderId.of(orderId))
+                .orElseThrow(() -> new NoSuchElementException("요청한 주문이 없습니다."));
 
+        order.changeOrderStatus();
+    }
 }
