@@ -28,4 +28,13 @@ public class OrderController {
                 .noContent()
                 .build();
     }
+
+    @GetMapping("{orderId}/detail")
+    public ResponseEntity<OrderDetailDto> orderDetailFind(@PathVariable String orderId){
+        log.info("order detail start ----");
+
+        return ResponseEntity
+                .ok(orderService.findOrderDetail(orderId));
+    }
+
 }
