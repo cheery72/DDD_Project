@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public class BoardRepositoryTest {
     public void saveBoard() {
         Board board = new Board(BoardId.createBoardId(), new Boarder(MemberId.of("user1")),
                 new BoardContent("새로운 게시글"), List.of(new BoardTag("#안녕")),
-                null,null,0, Status.REGISTRATION);
+                Collections.emptyList(),Collections.emptyList(),0, Status.REGISTRATION,50);
 
         Board newBoard = boardRepository.save(board);
 
