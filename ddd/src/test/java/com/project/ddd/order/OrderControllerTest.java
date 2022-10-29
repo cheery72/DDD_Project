@@ -6,6 +6,7 @@ import com.project.ddd.order.application.dto.OrderCreateDto;
 import com.project.ddd.order.application.dto.OrderDetailDto;
 import com.project.ddd.order.root.Order;
 import com.project.ddd.order.root.OrderRepository;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,16 +17,23 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
@@ -77,6 +85,40 @@ class OrderControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+
+
+    @Test
+    @DisplayName("주문 상세 조회")
+    public void findDetailOrder() throws Exception {
+        String orderId = "45cc2e51ca184286af3d5bc931f65c09";
+        OrderDetailDto orderDetailDto =
+                OrderDetailDto.builder()
+                        .orderId("45cc2e51ca184286af3d5bc931f65c09")
+                        .memberId("user1")
+                        .city("광주광역시")
+                        .gu("북구")
+                        .dong("각화동")
+                        .addressDetail("서희")
+                        .requestMessage("message")
+                        .receiverName("kim")
+                        .receiverPhone("010")
+                        .amount(50000)
+                        .orderStatus("PAYMENT_WAITING")
+                        .build();
+
+        mockMvc.perform(get(BASE_URL+"/"+orderId+"/detail"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("order_id").value(Matchers.equalTo("45cc2e51ca184286af3d5bc931f65c09")))
+                .andExpect(jsonPath("member_id").value(Matchers.equalTo("user1")))
+                .andExpect(jsonPath("city").value(Matchers.equalTo("광주광역시")))
+                .andExpect(jsonPath("gu").value(Matchers.equalTo("북구")))
+                .andExpect(jsonPath("dong").value(Matchers.equalTo("각화동")))
+                .andExpect(jsonPath("address_detail").value(Matchers.equalTo("서희")))
+                .andExpect(jsonPath("request_message").value(Matchers.equalTo("message")))
+                .andExpect(jsonPath("receiver_name").value(Matchers.equalTo("kim")))
+                .andExpect(jsonPath("receiver_phone").value(Matchers.equalTo("010")))
+                .andExpect(jsonPath("amount").value(Matchers.equalTo(50000)))
+                .andExpect(jsonPath("order_status").value(Matchers.equalTo("PAYMENT_WAITING")));
     }
 
 }

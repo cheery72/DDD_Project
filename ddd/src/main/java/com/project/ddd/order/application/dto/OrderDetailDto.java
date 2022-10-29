@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 @Builder
 public class OrderDetailDto {
 
