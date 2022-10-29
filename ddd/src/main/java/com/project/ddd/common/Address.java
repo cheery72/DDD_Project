@@ -11,8 +11,6 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Address {
 
-    private String metropolitanCity;
-
     private String city;
 
     private String gu;
@@ -21,15 +19,14 @@ public class Address {
 
     private String detail;
 
-    public Address(String metropolitanCity, String city, String gu, String dong, String detail) {
-        this.metropolitanCity = metropolitanCity;
+    public Address(String city, String gu, String dong, String detail) {
         this.city = city;
         this.gu = gu;
         this.dong = dong;
         this.detail = detail;
     }
 
-    public static Address of(String metropolitanCity, String city, String gu, String dong, String detail){
-        return new Address(metropolitanCity,city,gu,dong,detail);
+    public static Address of(String city, String gu, String dong, String detail){
+        return new Address(city,gu,dong,detail);
     }
 }
