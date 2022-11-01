@@ -28,9 +28,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -145,5 +144,14 @@ class OrderControllerTest {
                         .param("size", "2")
                         .param("sort", "createDate,desc"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("주문 취소")
+    public void cancelOrder() throws Exception {
+        String orderId = "45cc2e51ca184286af3d5bc931f65c09";
+
+        mockMvc.perform(delete(BASE_URL+"/"+orderId+"/order-cancel"))
+                .andExpect(status().isNoContent());
     }
 }

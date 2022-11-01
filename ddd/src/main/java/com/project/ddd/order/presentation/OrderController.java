@@ -53,4 +53,15 @@ public class OrderController {
                 .ok(orderService.findUserOrders(pageable, memberId));
     }
 
+    @DeleteMapping("{orderId}/order-cancel")
+    public ResponseEntity<Object> orderCancel(@PathVariable String orderId){
+        log.info("cancel order start ----");
+
+        orderService.cancelOrder(orderId);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
 }
