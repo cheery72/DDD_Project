@@ -7,8 +7,14 @@ import com.project.ddd.order.root.OrderService;
 import com.project.ddd.order.value.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,6 +41,16 @@ public class OrderController {
 
         return ResponseEntity
                 .ok(orderService.findOrderDetail(orderId));
+    }
+
+    @GetMapping("{memberId}/order-member")
+    public ResponseEntity<Page<OrderDetailDto>> orderUserOrders(@PageableDefault(size = 4, sort = "createDate",
+                                                                    direction = Sort.Direction.DESC) Pageable pageable,
+                                                                @PathVariable String memberId){
+        log.info("user order find orders start ----");
+
+        return ResponseEntity
+                .ok(orderService.findUserOrders(pageable, memberId));
     }
 
 }
