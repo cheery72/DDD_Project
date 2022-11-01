@@ -65,26 +65,25 @@ class OrderControllerTest {
     @DisplayName("주문 생성")
     public void createOrder() throws Exception {
         String body = objectMapper.writeValueAsString(
-            OrderCreateDto.builder()
-                .memberId("user1")
-                .boardId("caf3a51d9a47401a99872a91c743bc9c")
-                .city("광주광역시")
-                .gu("북구")
-                .dong("각화동")
-                .detail("서희")
-                .requestMessage("message")
-                .receiverName("kim")
-                .receiverPhone("010")
-                .quantity(1)
-                .build()
+                OrderCreateDto.builder()
+                        .memberId("user1")
+                        .boardId("caf3a51d9a47401a99872a91c743bc9c")
+                        .city("광주광역시")
+                        .gu("북구")
+                        .dong("각화동")
+                        .detail("서희")
+                        .requestMessage("message")
+                        .receiverName("kim")
+                        .receiverPhone("010")
+                        .quantity(1)
+                        .build()
         );
 
-        mockMvc.perform(post(BASE_URL+"/create")
-                .content(body)
-                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(post(BASE_URL + "/create")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
-
 
 
     @Test
@@ -106,7 +105,7 @@ class OrderControllerTest {
                         .orderStatus("PAYMENT_WAITING")
                         .build();
 
-        mockMvc.perform(get(BASE_URL+"/"+orderId+"/detail"))
+        mockMvc.perform(get(BASE_URL + "/" + orderId + "/detail"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("order_id").value(Matchers.equalTo("45cc2e51ca184286af3d5bc931f65c09")))
                 .andExpect(jsonPath("member_id").value(Matchers.equalTo("user1")))
@@ -121,4 +120,30 @@ class OrderControllerTest {
                 .andExpect(jsonPath("order_status").value(Matchers.equalTo("PAYMENT_WAITING")));
     }
 
+    @Test
+    @DisplayName("유저 주문 페이징 조회")
+    public void findUserOrdersPage() throws Exception {
+        String memberId = "user1";
+
+        OrderDetailDto orderDetailDto =
+                OrderDetailDto.builder()
+                        .orderId("45cc2e51ca184286af3d5bc931f65c09")
+                        .memberId("user1")
+                        .city("광주광역시")
+                        .gu("북구")
+                        .dong("각화동")
+                        .addressDetail("서희")
+                        .requestMessage("message")
+                        .receiverName("kim")
+                        .receiverPhone("010")
+                        .amount(50000)
+                        .orderStatus("PAYMENT_WAITING")
+                        .build();
+
+        mockMvc.perform(get(BASE_URL + "/" + memberId + "/order-member")
+                        .param("page", "0")
+                        .param("size", "2")
+                        .param("sort", "createDate,desc"))
+                .andExpect(status().isOk());
+    }
 }

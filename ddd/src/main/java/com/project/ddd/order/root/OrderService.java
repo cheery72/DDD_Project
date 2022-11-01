@@ -42,7 +42,7 @@ public class OrderService {
         return OrderDetailDto.orderDetailDtoBuilder(order);
     }
 
-    public Page<OrderDetailDto> findUserOrder(Pageable pageable, String memberId){
+    public Page<OrderDetailDto> findUserOrders(Pageable pageable, String memberId){
         Page<Order> orders = orderRepository.findPageByOrderer(pageable, Orderer.of(MemberId.of(memberId)));
 
         return new PageImpl<>(OrderDetailDto.orderListDetailDtoBuilder(orders),pageable,orders.getTotalElements());
