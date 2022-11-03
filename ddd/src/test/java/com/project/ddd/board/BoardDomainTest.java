@@ -64,7 +64,7 @@ public class BoardDomainTest {
     @Test
     @DisplayName("새로운 게시글 저장")
     public void createBoard() {
-        BoardCreateDto boardCreateDto = new BoardCreateDto("user1","새로운게시글", List.of("#tag"),List.of("image"));
+        BoardCreateDto boardCreateDto = new BoardCreateDto("user1","새로운게시글", List.of("#tag"),List.of("image"),50000);
         Board saveBoard = boardSave();
 
         when(boardRepository.save(any()))
