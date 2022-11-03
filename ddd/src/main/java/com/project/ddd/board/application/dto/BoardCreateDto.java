@@ -21,10 +21,13 @@ public class BoardCreateDto {
 
     private List<String> image;
 
-    public BoardCreateDto(String memberId, String content, List<String> tag, List<String> image) {
+    private int price;
+
+    public BoardCreateDto(String memberId, String content, List<String> tag, List<String> image, int price) {
         this.memberId = memberId;
         this.content = content;
         this.tag = tag;
         this.image = image;
+        this.price = price;
     }
 }

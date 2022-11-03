@@ -1,6 +1,7 @@
 package com.project.ddd.board.root;
 
 import com.project.ddd.board.root.Board;
+import com.project.ddd.board.root.querydsl.BoardRepositoryCustom;
 import com.project.ddd.board.value.BoardId;
 import com.project.ddd.board.value.Boarder;
 import com.project.ddd.member.value.MemberId;
@@ -11,7 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface BoardRepository extends JpaRepository<Board, BoardId> {
+public interface BoardRepository extends JpaRepository<Board, BoardId>, BoardRepositoryCustom {
     Optional<Board> findByBoarder(Boarder boarder);
     Page<Board> findPageAllByBoarder(Pageable pageable, Boarder boarder);
 }

@@ -17,7 +17,7 @@ import java.util.Optional;
 import static com.project.ddd.board.application.dto.BoardLikeDto.*;
 
 @Entity
-@Table
+@Table(indexes = @Index(name = "i_boarder", columnList = "boarder_id,status"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Board extends BaseTime {
