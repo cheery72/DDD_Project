@@ -42,8 +42,7 @@ public class BoardController {
     }
 
     @GetMapping("/{memberId}/member-board")
-    public ResponseEntity<Page<BoardListMemberDto>> boardPageListMemberFind(@PageableDefault(size = 4, sort = "createDate",
-                                                                    direction = Sort.Direction.DESC) Pageable pageable,
+    public ResponseEntity<Page<BoardListMemberDto>> boardPageListMemberFind(@PageableDefault(size = 4) Pageable pageable,
                                                                            @PathVariable String memberId){
         log.info("member board list find start ---- ");
 

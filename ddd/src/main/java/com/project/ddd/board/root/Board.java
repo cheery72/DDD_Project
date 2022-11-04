@@ -17,7 +17,7 @@ import java.util.Optional;
 import static com.project.ddd.board.application.dto.BoardLikeDto.*;
 
 @Entity
-@Table(indexes = @Index(name = "i_boarder", columnList = "boarder_id,status"))
+@Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Board extends BaseTime {
@@ -31,17 +31,17 @@ public class Board extends BaseTime {
     @Embedded
     private BoardContent content;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "board_tag", joinColumns = @JoinColumn(name = "board_id"))
     @OrderColumn(name = "tag_idx")
     private List<BoardTag> tags;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @OrderColumn(name = "like_member_idx")
     @CollectionTable(name = "board_like_member", joinColumns = @JoinColumn(name = "board_id"))
     private List<BoardLikeMember> likeMembers;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "board_image", joinColumns = @JoinColumn(name = "board_id"))
     @OrderColumn(name = "image_idx")
     private List<BoardImage> images;
