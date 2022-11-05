@@ -16,17 +16,16 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member joinMember(MemberCreateDto memberCreateDto) throws InterruptedException {
+    public Member joinMember(MemberCreateDto memberCreateDto) {
         Member member = Member.memberCreateBuilder(memberCreateDto);
-        Member newMember = memberRepository.save(member);
-        joinProvideCoupon(newMember);
 
-        return newMember;
+        return memberRepository.save(member);
     }
 
-    @Async("couponAsync")
-    public void joinProvideCoupon(Member member) throws InterruptedException {
-        Thread.sleep(3000);
+    @Transactional
+    @Async
+    public void joinProvideCoupon(Member member) {
         member.joinCoupon();
+        memberRepository.save(member);
     }
 }
