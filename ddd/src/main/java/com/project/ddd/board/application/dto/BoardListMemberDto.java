@@ -29,7 +29,7 @@ public class BoardListMemberDto {
 
     private int likes;
 
-    public static List<BoardListMemberDto> boardListMemberDtoBuilder(Page<Board> boards){
+    public static List<BoardListMemberDto> boardListMemberDtoBuilder(List<Board> boards){
         return boards.stream()
                 .map(board -> BoardListMemberDto.builder()
                         .boardId(board.getId().getId())
