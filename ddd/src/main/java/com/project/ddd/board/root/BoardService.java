@@ -40,10 +40,11 @@ public class BoardService {
         return BoardDetailDto.BoardDetailDtoBuilder(board);
     }
 
+    // TODO: N+1 문제 해결
     public Page<BoardListMemberDto> findBoardPageListMember(Pageable pageable, String memberId){
-        Page<Board> boardList = boardRepository.findPageAllByBoarder(pageable,Boarder.of(MemberId.of(memberId)));
+        List<Board> boardList = boardRepository.findPageAllByBoarder(pageable, Boarder.of(MemberId.of(memberId)));
 
-        return new PageImpl<>(BoardListMemberDto.boardListMemberDtoBuilder(boardList),pageable,boardList.getTotalElements());
+        return new PageImpl<>(BoardListMemberDto.boardListMemberDtoBuilder(boardList),pageable, pageable.getOffset());
     }
 
     @Transactional

@@ -13,6 +13,4 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, BoardId>, BoardRepositoryCustom {
-    Optional<Board> findByBoarder(Boarder boarder);
-    Page<Board> findPageAllByBoarder(Pageable pageable, Boarder boarder);
 }

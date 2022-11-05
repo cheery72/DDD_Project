@@ -99,6 +99,7 @@ public class BoardDomainTest {
         }
 
         Pageable pageable = PageRequest.of(1,2);
+
         Page<Board> page = new PageImpl<>(boardList,pageable,boardList.size());
 
         String id = saveBoard.getBoarder().getMemberId().getId();
@@ -107,11 +108,13 @@ public class BoardDomainTest {
         Boarder boarder = Boarder.of(memberId);
 
         when(boardRepository.findPageAllByBoarder(pageable,boarder))
-                .thenReturn(page);
+                .thenReturn(boardList);
 
-        Page<Board> newBoardList = boardRepository.findPageAllByBoarder(pageable,boarder);
+        List<Board> newBoardList = boardRepository.findPageAllByBoarder(pageable,boarder);
 
-        assertThat(page).isEqualTo(newBoardList);
+        Page<Board> newPage = new PageImpl<>(newBoardList,pageable,newBoardList.size());
+
+        assertThat(page).isEqualTo(newPage);
 
     }
 
