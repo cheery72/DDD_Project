@@ -1,5 +1,6 @@
 package com.project.ddd.member.value;
 
+import com.project.ddd.board.value.BoardId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Embeddable
 @Getter
@@ -21,6 +23,10 @@ public class MemberId implements Serializable {
 
     public MemberId(String id) {
         this.id = id;
+    }
+
+    public static MemberId createMemberId() {
+        return new MemberId(UUID.randomUUID().toString().replace("-",""));
     }
 
     public static MemberId of(String id) {
