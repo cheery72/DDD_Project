@@ -10,6 +10,7 @@ import com.project.ddd.member.value.MemberId;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -34,17 +35,17 @@ public class Board extends BaseTime {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "board_tag", joinColumns = @JoinColumn(name = "board_id"))
     @OrderColumn(name = "tag_idx")
-    private List<BoardTag> tags;
+    private List<BoardTag> tags = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
     @OrderColumn(name = "like_member_idx")
     @CollectionTable(name = "board_like_member", joinColumns = @JoinColumn(name = "board_id"))
-    private List<BoardLikeMember> likeMembers;
+    private List<BoardLikeMember> likeMembers = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "board_image", joinColumns = @JoinColumn(name = "board_id"))
     @OrderColumn(name = "image_idx")
-    private List<BoardImage> images;
+    private List<BoardImage> images = new ArrayList<>();
 
     private int likes;
 
