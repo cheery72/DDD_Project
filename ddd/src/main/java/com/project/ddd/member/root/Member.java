@@ -1,6 +1,5 @@
 package com.project.ddd.member.root;
 
-import com.project.ddd.board.value.BoardImage;
 import com.project.ddd.common.BaseTime;
 import com.project.ddd.member.application.dto.MemberCreateDto;
 import com.project.ddd.member.value.*;
@@ -10,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,7 +40,7 @@ public class Member extends BaseTime {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "member_coupon", joinColumns = @JoinColumn(name = "member_id"))
     @OrderColumn(name = "coupon_idx")
-    private List<Coupon> coupons;
+    private List<Coupon> coupons = new ArrayList<>();
 
     public void joinCoupon() {
         this.coupons = List.of(new Coupon("신규가입 쿠폰", 10));

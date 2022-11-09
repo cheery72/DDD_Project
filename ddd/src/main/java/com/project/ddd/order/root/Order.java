@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class Order extends BaseTime {
     @ElementCollection(fetch = FetchType.LAZY)
     @OrderColumn(name = "order_line_idx")
     @CollectionTable(name = "order_line", joinColumns = @JoinColumn(name = "order_id"))
-    private List<OrderLine> orderLines;
+    private List<OrderLine> orderLines = new ArrayList<>();
 
     @Embedded
     private ShippingInfo shippingInfo;

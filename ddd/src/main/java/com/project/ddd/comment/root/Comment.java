@@ -1,22 +1,19 @@
 package com.project.ddd.comment.root;
 
-
 import com.project.ddd.board.value.BoardId;
-import com.project.ddd.board.value.BoardLikeMember;
 import com.project.ddd.comment.application.dto.CommentCreateDto;
-import com.project.ddd.comment.application.dto.CommentLikeDto;
 import com.project.ddd.comment.application.dto.CommentModifyDto;
 import com.project.ddd.comment.value.*;
 import com.project.ddd.common.*;
 import com.project.ddd.member.root.Member;
 import com.project.ddd.member.value.MemberId;
-import com.project.ddd.member.value.Name;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -47,12 +44,12 @@ public class Comment extends BaseTime {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "comment_tag", joinColumns = @JoinColumn(name = "comment_id"))
     @OrderColumn(name = "tag_idx")
-    private List<CommentTag> tag;
+    private List<CommentTag> tag = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
     @OrderColumn(name = "like_member_idx")
     @CollectionTable(name = "comment_like_member", joinColumns = @JoinColumn(name = "comment_id"))
-    private List<CommentLikeMember> likeMembers;
+    private List<CommentLikeMember> likeMembers = new ArrayList<>();
 
     private int likes;
 

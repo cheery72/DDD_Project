@@ -1,24 +1,23 @@
-package com.project.ddd.board.value;
+package com.project.ddd.shorts.value;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BoardContent {
+public class ShortsContent {
 
     private String content;
 
-    public BoardContent(String content) {
+    public ShortsContent(String content) {
         this.content = content;
     }
 
-    public static BoardContent of(String content){
-        return new BoardContent(content);
+    public static ShortsContent of(String content){
+        return new ShortsContent(content);
     }
 }
